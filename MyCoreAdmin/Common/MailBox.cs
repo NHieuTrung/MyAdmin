@@ -17,6 +17,7 @@ namespace Common
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress("trungsendmailnek@gmail.com");
             mailMessage.To.Add(toEmail);
+            mailMessage.IsBodyHtml = true;
             mailMessage.Body =body;
             mailMessage.Subject = subject;
             client.Send(mailMessage);

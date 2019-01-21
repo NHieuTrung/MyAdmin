@@ -12,7 +12,7 @@
                 <div class="form-group row pt-0">
                     <label class="col-md-1 control-label">To:</label>
                     <div class="col-md-11">
-                        <input class="form-control" id="iptToEmail"/>
+                        <input class="form-control" type="email" id="iptToEmail"/>
                     </div>
                 </div>
             </div>
@@ -82,6 +82,7 @@
             $('.js-example-basic-multiple').select2({ tags: true });
         });
     </script>
+
     <script>
         $(document).ready(function () {
             $('#summernote').summernote({
@@ -100,7 +101,7 @@
                         url: '@Url.Action("SendMail","IntegrateTool")',
                         data: { toEmail:$('#iptToEmail').val(), subject:$('#iptSubject').val(), body:$('#summernote').val() },
                         success: function (result) {
-                            if (result = true) {
+                            if (result == true) {
                                 alert("Gui mail thanh cong :))");
                             }
                             else {
