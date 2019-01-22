@@ -4,37 +4,24 @@
 }
 
 <div class="container-fluid">
+    <form onsubmit="integrateTool.sendMail(); return false;">
         <div class="email-head">
-            <div class="email-head-title">Compose new message<span class="icon mdi mdi-edit"></span></div>
+            <div class="email-head-title">Send your mail<span class="icon mdi mdi-edit"></span></div>
         </div>
         <div class="email-compose-fields">
             <div class="to">
                 <div class="form-group row pt-0">
                     <label class="col-md-1 control-label">To:</label>
                     <div class="col-md-11">
-                        <input class="form-control" type="email" id="iptToEmail"/>
+                        <input class="form-control" type="email" id="iptToEmail" required />
                     </div>
                 </div>
             </div>
-            @*<div class="to cc">
-                <div class="form-group row pt-2">
-                    <label class="col-md-1 control-label">Cc</label>
-                    <div class="col-md-11">
-                        <select class="js-example-basic-multiple" multiple="multiple">
-                            <option value="Alabama">Alabama</option>
-                            <option value="Alaska" selected="selected">Alaska</option>
-                            <option value="Melbourne">Melbourne</option>
-                            <option value="Victoria" selected="selected">Victoria</option>
-                            <option value="Newyork">Newyork</option>
-                        </select>
-                    </div>
-                </div>
-            </div>*@
             <div class="subject">
                 <div class="form-group row pt-2">
                     <label class="col-md-1 control-label">Subject</label>
                     <div class="col-md-11">
-                        <input class="form-control" id="iptSubject" type="text">
+                        <input class="form-control" id="iptSubject" type="text" required>
                     </div>
                 </div>
             </div>
@@ -50,11 +37,12 @@
                 <div class="col-md-12 ">
                     <div class="form-group">
                         <button class="btn btn-primary btn-space" type="submit" id="btnSendMail"><i class="icon s7-mail"></i> Send</button>
-                        <button class="btn btn-secondary btn-space" type="button"><i class="icon s7-close"></i> Cancel</button>
+                        <button class="btn btn-secondary btn-space" type="reset"><i class="icon s7-close"></i> Cancel</button>
                     </div>
                 </div>
             </div>
         </div>
+    </form>
 </div>
 
 @section PluginCSS{
@@ -94,24 +82,22 @@
 
     <script>
         var integrateTool = {
-            sendMail: function () {
-                $('#btnSendMail').off('click').on('click', function () {
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("SendMail","IntegrateTool")',
-                        data: { toEmail:$('#iptToEmail').val(), subject:$('#iptSubject').val(), body:$('#summernote').val() },
-                        success: function (result) {
-                            if (result == true) {
-                                alert("Gui mail thanh cong :))");
-                            }
-                            else {
-                                alert("Gui mail that bai :((")
-                            }
+        sendMail: function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SendMail","IntegrateTool")',
+                    data: { toEmail: $('#iptToEmail').val(), subject: $('#iptSubject').val(), body: $('#summernote').val() },
+                    success: function (result) {
+                        if (result == true) {
+                            alert("Gui mail thanh cong :))");
                         }
-                    });
-                });
-            }
+                        else {
+                            alert("Gui mail that bai :((");
+                        }
+                    }
+            });
         }
-        integrateTool.sendMail();
+    };
     </script>
+    
 }
