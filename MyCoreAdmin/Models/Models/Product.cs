@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Models.Models
+{
+    public partial class Product
+    {
+        public Product()
+        {
+            ProductAttribute = new HashSet<ProductAttribute>();
+        }
+
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public DateTime AddedDate { get; set; }
+        public string EstablishedDate { get; set; }
+        public int TypeId { get; set; }
+        public decimal? Price { get; set; }
+        public int Quantity { get; set; }
+
+        public virtual Type Type { get; set; }
+        public virtual ICollection<ProductAttribute> ProductAttribute { get; set; }
+    }
+}
