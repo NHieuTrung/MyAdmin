@@ -1,6 +1,8 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace MyCoreAdmin.Models
+namespace Model.ViewModels
 {
     public class ErrorViewModel
     {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Model.Models;
 
 namespace MyCoreAdmin.Controllers
 {
@@ -14,12 +15,15 @@ namespace MyCoreAdmin.Controllers
     public class IntegrateToolController : Controller
     {
         private IHostingEnvironment _hostingEnvironment;
+        private readonly MyCoreAdminDBContext _context;
 
-        public IntegrateToolController(IHostingEnvironment environment)
+        public IntegrateToolController(IHostingEnvironment environment, MyCoreAdminDBContext context)
         {
             _hostingEnvironment = environment;
+            _context = context;
         }
 
+        //Send mail Html form integrate Document editor Summer Note
         public IActionResult SummerNote()
         {
             return View();
@@ -46,6 +50,12 @@ namespace MyCoreAdmin.Controllers
                 result = false;
             }
             return new JsonResult(result);
+        }
+        /////////////////////////////////////////////////////////////
+        
+        public IActionResult ProductItemManager()
+        {
+            return View();
         }
     }
 }

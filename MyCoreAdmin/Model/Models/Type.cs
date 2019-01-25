@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Models.Models
+namespace Model.Models
 {
     public partial class Type
     {

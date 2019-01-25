@@ -3,46 +3,73 @@
     ViewData["Title"] = "CKFinder5";
 }
 
-<div class="container-fluid">
-    <form onsubmit="integrateTool.sendMail(); return false;">
-        <div class="email-head">
-            <div class="email-head-title">Send your mail<span class="icon mdi mdi-edit"></span></div>
-        </div>
-        <div class="email-compose-fields">
-            <div class="to">
-                <div class="form-group row pt-0">
-                    <label class="col-md-1 control-label">To:</label>
-                    <div class="col-md-11">
-                        <input class="form-control" type="email" id="iptToEmail" required />
-                    </div>
-                </div>
-            </div>
-            <div class="subject">
-                <div class="form-group row pt-2">
-                    <label class="col-md-1 control-label">Subject</label>
-                    <div class="col-md-11">
-                        <input class="form-control" id="iptSubject" type="text" required>
-                    </div>
+<div class="container-fluid dashboard-content">
+    <!-- ============================================================== -->
+    <!-- pageheader -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h2 class="pageheader-title">Blank Pageheader </h2>
+                <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                <div class="page-breadcrumb">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Pages</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Blank Pageheader</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
-        <div class="email editor">
-            <div class="col-md-12 p-0">
-                <div class="form-group">
-                    <label class="control-label sr-only" for="summernote">Descriptions </label>
-                    <textarea class="form-control" id="summernote" name="editordata" rows="6" placeholder="Write Descriptions"></textarea>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end pageheader -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <form onsubmit="integrateTool.sendMail(); return false;">
+                <div class="email-head">
+                    <div class="email-head-title">Send your mail<span class="icon mdi mdi-edit"></span></div>
                 </div>
-            </div>
-            <div class="email action-send">
-                <div class="col-md-12 ">
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-space" type="submit" id="btnSendMail"><i class="icon s7-mail"></i> Send</button>
-                        <button class="btn btn-secondary btn-space" type="reset"><i class="icon s7-close"></i> Cancel</button>
+                <div class="email-compose-fields">
+                    <div class="to">
+                        <div class="form-group row pt-0">
+                            <label class="col-md-1 control-label">To:</label>
+                            <div class="col-md-11">
+                                <input class="form-control" type="email" id="iptToEmail" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="subject">
+                        <div class="form-group row pt-2">
+                            <label class="col-md-1 control-label">Subject</label>
+                            <div class="col-md-11">
+                                <input class="form-control" id="iptSubject" type="text" required>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="email editor">
+                    <div class="col-md-12 p-0">
+                        <div class="form-group">
+                            <label class="control-label sr-only" for="summernote">Descriptions </label>
+                            <textarea class="form-control" id="summernote" name="editordata" rows="6" placeholder="Write Descriptions"></textarea>
+                        </div>
+                    </div>
+                    <div class="email action-send">
+                        <div class="col-md-12 ">
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-space" type="submit" id="btnSendMail"><i class="icon s7-mail"></i> Send</button>
+                                <button class="btn btn-secondary btn-space" type="reset"><i class="icon s7-close"></i> Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
 @section PluginCSS{

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Models.Models
+namespace Model.Models
 {
     public partial class MyCoreAdminDBContext : DbContext
     {
@@ -16,6 +16,7 @@ namespace Models.Models
         }
 
         public virtual DbSet<Attribute> Attribute { get; set; }
+        public virtual DbSet<Branch> Branch { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductAttribute> ProductAttribute { get; set; }
         public virtual DbSet<Type> Type { get; set; }
@@ -47,13 +48,22 @@ namespace Models.Models
                     .HasConstraintName("FK_ATTRIBUTE_TYPE");
             });
 
+            modelBuilder.Entity<Branch>(entity =>
+            {
+                entity.ToTable("BRANCH");
+
+                entity.Property(e => e.BranchName)
+                    .IsRequired()
+                    .HasMaxLength(300);
+            });
+
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.ToTable("PRODUCT");
 
                 entity.Property(e => e.AddedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.EstablishedDate).HasMaxLength(10);
+                entity.Property(e => e.EstablishedDate).HasColumnType("date");
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
 
@@ -61,11 +71,17 @@ namespace Models.Models
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.HasOne(d => d.Branch)
+                    .WithMany(p => p.Product)
+                    .HasForeignKey(d => d.BranchId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PRODUCT_BRANCH");
+
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Product)
                     .HasForeignKey(d => d.TypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PRODUCT_TYPE1");
+                    .HasConstraintName("FK_PRODUCT_TYPE");
             });
 
             modelBuilder.Entity<ProductAttribute>(entity =>
