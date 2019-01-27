@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Model.Models;
 
 namespace MyCoreAdmin.Controllers
@@ -53,9 +54,9 @@ namespace MyCoreAdmin.Controllers
         }
         /////////////////////////////////////////////////////////////
         
-        public IActionResult ProductItemManager()
+        public async Task<IActionResult> ProductItemManager()
         {
-            return View();
+            return View( await _context.Type.ToListAsync());
         }
     }
 }
