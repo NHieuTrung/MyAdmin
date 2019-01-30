@@ -15,11 +15,9 @@ namespace Model.Models
         public DateTime AddedDate { get; set; }
         public DateTime? EstablishedDate { get; set; }
         public int TypeId { get; set; }
-        public int BranchId { get; set; }
         public decimal? Price { get; set; }
         public int Quantity { get; set; }
 
-        public virtual Branch Branch { get; set; }
         public virtual Type Type { get; set; }
         public virtual ICollection<ProductAttribute> ProductAttribute { get; set; }
     }

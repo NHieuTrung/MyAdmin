@@ -12,8 +12,10 @@ namespace Model.Models
         }
 
         public int TypeId { get; set; }
+        public int BranchId { get; set; }
         public string TypeName { get; set; }
 
+        public virtual Branch Branch { get; set; }
         public virtual ICollection<Attribute> Attribute { get; set; }
         public virtual ICollection<Product> Product { get; set; }
     }

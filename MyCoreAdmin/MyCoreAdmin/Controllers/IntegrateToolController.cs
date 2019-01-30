@@ -56,7 +56,7 @@ namespace MyCoreAdmin.Controllers
         
         public async Task<IActionResult> ProductItemManager()
         {
-            return View( await _context.Type.ToListAsync());
+            return View( await _context.Type.Include(m=>m.Branch).ToListAsync());
         }
     }
 }

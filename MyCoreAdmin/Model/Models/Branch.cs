@@ -7,12 +7,12 @@ namespace Model.Models
     {
         public Branch()
         {
-            Product = new HashSet<Product>();
+            Type = new HashSet<Type>();
         }
 
         public int BranchId { get; set; }
         public string BranchName { get; set; }
 
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<Type> Type { get; set; }
     }
 }

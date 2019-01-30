@@ -8,11 +8,6 @@
   <ItemGroup>
     <None Include="Views\IntegrateTool\ProductItemManager.cshtml" />
     <None Include="Views\IntegrateTool\SummerNote.cshtml" />
-    <None Include="Views\Types\Create.cshtml" />
-    <None Include="Views\Types\Delete.cshtml" />
-    <None Include="Views\Types\Details.cshtml" />
-    <None Include="Views\Types\Edit.cshtml" />
-    <None Include="Views\Types\Index.cshtml" />
   </ItemGroup>
 
 

@@ -22,7 +22,8 @@ namespace MyCoreAdmin.Controllers
         // GET: Types
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Type.ToListAsync());
+            var myCoreAdminDBContext = _context.Type.Include(m => m.Branch);
+            return View(await myCoreAdminDBContext.ToListAsync());
         }
 
         // GET: Types/Details/5
@@ -33,19 +34,21 @@ namespace MyCoreAdmin.Controllers
                 return NotFound();
             }
 
-            var @type = await _context.Type
+            var mtype = await _context.Type
+                .Include(m => m.Branch)
                 .FirstOrDefaultAsync(m => m.TypeId == id);
-            if (@type == null)
+            if (mtype == null)
             {
                 return NotFound();
             }
 
-            return View(@type);
+            return View(mtype);
         }
 
         // GET: Types/Create
         public IActionResult Create()
         {
+            ViewData["BranchId"] = new SelectList(_context.Branch, "BranchId", "BranchName");
             return View();
         }
 
@@ -54,15 +57,16 @@ namespace MyCoreAdmin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TypeId,TypeName")] Type @type)
+        public async Task<IActionResult> Create([Bind("TypeId,BranchId,TypeName")] Type mtype)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@type);
+                _context.Add(mtype);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@type);
+            ViewData["BranchId"] = new SelectList(_context.Branch, "BranchId", "BranchName", mtype.BranchId);
+            return View(mtype);
         }
 
         // GET: Types/Edit/5
@@ -73,12 +77,13 @@ namespace MyCoreAdmin.Controllers
                 return NotFound();
             }
 
-            var @type = await _context.Type.FindAsync(id);
-            if (@type == null)
+            var mtype = await _context.Type.FindAsync(id);
+            if (mtype == null)
             {
                 return NotFound();
             }
-            return View(@type);
+            ViewData["BranchId"] = new SelectList(_context.Branch, "BranchId", "BranchName", mtype.BranchId);
+            return View(mtype);
         }
 
         // POST: Types/Edit/5
@@ -86,9 +91,9 @@ namespace MyCoreAdmin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TypeId,TypeName")] Type @type)
+        public async Task<IActionResult> Edit(int id, [Bind("TypeId,BranchId,TypeName")] Type mtype)
         {
-            if (id != @type.TypeId)
+            if (id != mtype.TypeId)
             {
                 return NotFound();
             }
@@ -97,12 +102,12 @@ namespace MyCoreAdmin.Controllers
             {
                 try
                 {
-                    _context.Update(@type);
+                    _context.Update(mtype);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TypeExists(@type.TypeId))
+                    if (!TypeExists(mtype.TypeId))
                     {
                         return NotFound();
                     }
@@ -113,7 +118,8 @@ namespace MyCoreAdmin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@type);
+            ViewData["BranchId"] = new SelectList(_context.Branch, "BranchId", "BranchName", mtype.BranchId);
+            return View(mtype);
         }
 
         // GET: Types/Delete/5
@@ -124,14 +130,15 @@ namespace MyCoreAdmin.Controllers
                 return NotFound();
             }
 
-            var @type = await _context.Type
+            var mtype = await _context.Type
+                .Include(m => m.Branch)
                 .FirstOrDefaultAsync(m => m.TypeId == id);
-            if (@type == null)
+            if (mtype == null)
             {
                 return NotFound();
             }
 
-            return View(@type);
+            return View(mtype);
         }
 
         // POST: Types/Delete/5
@@ -139,8 +146,8 @@ namespace MyCoreAdmin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @type = await _context.Type.FindAsync(id);
-            _context.Type.Remove(@type);
+            var mtype = await _context.Type.FindAsync(id);
+            _context.Type.Remove(mtype);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

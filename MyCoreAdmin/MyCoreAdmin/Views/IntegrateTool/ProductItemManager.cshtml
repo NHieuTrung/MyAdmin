@@ -1,4 +1,6 @@
-﻿
+﻿@model List<Model.Models.Type>
+@using Common
+@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnviroment
 @{
     ViewData["Title"] = "ProductItemManager";
 }
@@ -29,82 +31,42 @@
     <!-- image cards  -->
     <!-- ============================================================== -->
     <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="section-block" id="image-card">
-                <h3 class="section-title">Card Images</h3>
-                <p>Cards include a few options for working with images. Choose from appending “image caps” at either end of a card, overlaying images with card content, or simply embedding the image in a card.</p>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-            <div class="card">
-                <img class="card-img-top img-fluid" src="~/images/card-img.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title">Card title</h3>
-                    <p class="card-text">Vestibuluimis in faucibus orci luctus et ultrices posuere cubilia Curis ipsum in augue posuere congue.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            if (i > 0)
+            {
+                if (Model[i].BranchId != Model[i - 1].BranchId)
+                {
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="section-block" id="image-card">
+                            <h3 class="section-title">@Model[i].Branch.BranchName</h3>
+                            <p>Cards include a few options for working with images. Choose from appending “image caps” at either end of a card, overlaying images with card content, or simply embedding the image in a card.</p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="section-block" id="image-card">
+                        <h3 class="section-title">@Model[i].Branch.BranchName</h3>
+                        <p>Cards include a few options for working with images. Choose from appending “image caps” at either end of a card, overlaying images with card content, or simply embedding the image in a card.</p>
+                    </div>
+                </div>
+            }
+
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="card">
+                    <img class="card-img-top img-fluid" src=@Common.ImageBox.ImageObjectPath("type",Model[i].TypeId,null,_hostingEnviroment) alt="Card image cap">
+                    <div class="card-body">
+                        <h3 class="card-title">@Model[i].TypeName</h3>
+                        <p class="card-text">bla vla bla cla</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-            <div class="card">
-                <img class="card-img-top img-fluid" src="~/images/card-img.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title">Card title</h3>
-                    <p class="card-text">Vestibuluimis in faucibus orci luctus et ultrices posuere cubilia Curis ipsum in augue posuere congue.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-            <div class="card">
-                <img class="card-img-top img-fluid" src="~/images/card-img.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title">Card title</h3>
-                    <p class="card-text">Vestibuluimis in faucibus orci luctus et ultrices posuere cubilia Curis ipsum in augue posuere congue.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-            <div class="card">
-                <img class="card-img-top img-fluid" src="~/images/card-img.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title">Card title</h3>
-                    <p class="card-text">Vestibuluimis in faucibus orci luctus et ultrices posuere cubilia Curis ipsum in augue posuere congue.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-            <div class="card">
-                <img class="card-img-top img-fluid" src="~/images/card-img.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title">Card title</h3>
-                    <p class="card-text">Vestibuluimis in faucibus orci luctus et ultrices posuere cubilia Curis ipsum in augue posuere congue.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-            <div class="card">
-                <img class="card-img-top img-fluid" src="~/images/card-img.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title">Card title</h3>
-                    <p class="card-text">Vestibuluimis in faucibus orci luctus et ultrices posuere cubilia Curis ipsum in augue posuere congue.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-            <div class="card">
-                <img class="card-img-top img-fluid" src="~/images/card-img.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title">Card title</h3>
-                    <p class="card-text">Vestibuluimis in faucibus orci luctus et ultrices posuere cubilia Curis ipsum in augue posuere congue.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
+        }
     </div>
     <!-- ============================================================== -->
     <!-- end image cards  -->

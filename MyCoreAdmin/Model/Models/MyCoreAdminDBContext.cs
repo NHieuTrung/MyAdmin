@@ -38,6 +38,8 @@ namespace Model.Models
             {
                 entity.ToTable("ATTRIBUTE");
 
+                entity.HasIndex(e => e.TypeId);
+
                 entity.Property(e => e.AttributeName)
                     .IsRequired()
                     .HasMaxLength(300);
@@ -61,6 +63,8 @@ namespace Model.Models
             {
                 entity.ToTable("PRODUCT");
 
+                entity.HasIndex(e => e.TypeId);
+
                 entity.Property(e => e.AddedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.EstablishedDate).HasColumnType("date");
@@ -70,12 +74,6 @@ namespace Model.Models
                 entity.Property(e => e.ProductName)
                     .IsRequired()
                     .HasMaxLength(100);
-
-                entity.HasOne(d => d.Branch)
-                    .WithMany(p => p.Product)
-                    .HasForeignKey(d => d.BranchId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PRODUCT_BRANCH");
 
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Product)
@@ -90,6 +88,8 @@ namespace Model.Models
                     .HasName("PK__PRODUCT___081454530E839143");
 
                 entity.ToTable("PRODUCT_ATTRIBUTE");
+
+                entity.HasIndex(e => e.AttributeId);
 
                 entity.Property(e => e.AttributeValue)
                     .IsRequired()
@@ -115,6 +115,12 @@ namespace Model.Models
                 entity.Property(e => e.TypeName)
                     .IsRequired()
                     .HasMaxLength(300);
+
+                entity.HasOne(d => d.Branch)
+                    .WithMany(p => p.Type)
+                    .HasForeignKey(d => d.BranchId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TYPE_BRANCH");
             });
         }
     }
