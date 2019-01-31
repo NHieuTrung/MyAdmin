@@ -8,24 +8,23 @@ namespace Common
 {
     public class ImageBox
     {
-        private static string imageFolderPath = "/images/";
-        private static string imageNotFound = "/images/imagenotfound.jpg";
+        private static string imageFolderPath = "\\images\\";
+        private static string imageNotFound = "\\images\\imagenotfound.jpg";
         public static string ImageObjectPath(string objectName,int id,int? imageOrder, IHostingEnvironment _hostingEnvironment)
         {
             string imagePath;
             if (imageOrder != null)
             {
-                imagePath = imageFolderPath + objectName + "/" + id + "_" + imageOrder + ".jpg";
+                imagePath = imageFolderPath + objectName + "\\" + id + "_" + imageOrder + ".jpg";
             }
             else
             {
-                imagePath= imageFolderPath + objectName + "/" + id + ".jpg";
+                imagePath= imageFolderPath + objectName + "\\" + id + ".jpg";
             }
-
-            var imageSrc = File.Exists(Path.Combine(_hostingEnvironment.WebRootPath, imagePath))
+            var imageSrc = File.Exists(_hostingEnvironment.WebRootPath+ imagePath)
                                ? imagePath : imageNotFound;
 
-            return imagePath;
+            return imageSrc;
         }
     }
 }

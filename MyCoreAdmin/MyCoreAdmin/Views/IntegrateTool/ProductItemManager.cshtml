@@ -40,8 +40,7 @@
                 {
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="section-block" id="image-card">
-                            <h3 class="section-title">@Model[i].Branch.BranchName</h3>
-                            <p>Cards include a few options for working with images. Choose from appending “image caps” at either end of a card, overlaying images with card content, or simply embedding the image in a card.</p>
+                            <h2 class="section-title">@Model[i].Branch.BranchName</h2>
                         </div>
                     </div>
                 }
@@ -50,8 +49,7 @@
             {
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="section-block" id="image-card">
-                        <h3 class="section-title">@Model[i].Branch.BranchName</h3>
-                        <p>Cards include a few options for working with images. Choose from appending “image caps” at either end of a card, overlaying images with card content, or simply embedding the image in a card.</p>
+                        <h2 class="section-title">@Model[i].Branch.BranchName</h2>
                     </div>
                 </div>
             }
@@ -62,10 +60,35 @@
                     <div class="card-body">
                         <h3 class="card-title">@Model[i].TypeName</h3>
                         <p class="card-text">bla vla bla cla</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a href="#" class="btn btn-primary">View all product</a>
                     </div>
                 </div>
             </div>
+
+            if (i != Model.Count() - 1)
+            {
+                if (Model[i].BranchId != Model[i + 1].BranchId)
+                {
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <div>
+                                <img  src="~/images/createnewobject.jpg">
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <div>
+                                <img src="~/images/createnewobject.jpg">
+                            </div>
+                        </div>
+                    </div>
+            }
+
         }
     </div>
     <!-- ============================================================== -->
