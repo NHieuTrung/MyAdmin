@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
+    <Compile Remove="ModelsUpdate\**" />
+    <EmbeddedResource Remove="ModelsUpdate\**" />
+    <None Remove="ModelsUpdate\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ModelsUpdate\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
   </ItemGroup>
 
 </Project>

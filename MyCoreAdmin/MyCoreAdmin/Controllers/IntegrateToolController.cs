@@ -53,10 +53,23 @@ namespace MyCoreAdmin.Controllers
             return new JsonResult(result);
         }
         /////////////////////////////////////////////////////////////
-        
+
+
+        //Product manager
         public async Task<IActionResult> ProductItemManager()
         {
             return View( await _context.Type.Include(m=>m.Branch).ToListAsync());
+        }
+
+        public async Task<IActionResult> ProductListManager(int? typeId)
+        {
+            IQueryable<Product> listProduct = _context.Product;
+            if(typeId != null)
+            {
+                listProduct = listProduct.Where(m => m.TypeId == typeId);
+            }
+
+            return View(await listProduct.ToListAsync());
         }
     }
 }
