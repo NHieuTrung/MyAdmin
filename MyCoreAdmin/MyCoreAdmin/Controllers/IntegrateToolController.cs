@@ -18,6 +18,7 @@ namespace MyCoreAdmin.Controllers
         private IHostingEnvironment _hostingEnvironment;
         private readonly MyCoreAdminDBContext _context;
 
+        //Mail tool
         public IntegrateToolController(IHostingEnvironment environment, MyCoreAdminDBContext context)
         {
             _hostingEnvironment = environment;
@@ -52,24 +53,11 @@ namespace MyCoreAdmin.Controllers
             }
             return new JsonResult(result);
         }
-        /////////////////////////////////////////////////////////////
 
-
-        //Product manager
-        public async Task<IActionResult> ProductItemManager()
+        //Image Tool
+        public IActionResult Croppie()
         {
-            return View( await _context.Type.Include(m=>m.Branch).ToListAsync());
-        }
-
-        public async Task<IActionResult> ProductListManager(int? typeId)
-        {
-            IQueryable<Product> listProduct = _context.Product;
-            if(typeId != null)
-            {
-                listProduct = listProduct.Where(m => m.TypeId == typeId);
-            }
-
-            return View(await listProduct.ToListAsync());
+            return View();
         }
     }
 }

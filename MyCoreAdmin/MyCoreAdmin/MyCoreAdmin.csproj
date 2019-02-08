@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Views\IntegrateTool\ProductItemManager.cshtml" />
     <None Include="Views\IntegrateTool\SummerNote.cshtml" />
   </ItemGroup>
 
@@ -30,6 +29,7 @@
     <Folder Include="wwwroot\images\branch\" />
     <Folder Include="wwwroot\images\product\" />
     <Folder Include="wwwroot\images\type\" />
+    <Folder Include="wwwroot\vendor\sweetalert2\" />
   </ItemGroup>
 
 </Project>
