@@ -6,24 +6,24 @@
 <div class="container-fluid dashboard-content">
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="col-1-2">
-                    <strong>Upload Example (with exif orientation compatability)</strong>
-                    <div class="actions">
-                        <a class="btn file-btn">
-                            <span>Upload</span>
-                            <input type="file" id="upload" value="Choose a file" accept="image/*" />
-                        </a>
-                        <button class="upload-result">Result</button>
-                    </div>
+            <div class="col-1-2">
+                <strong>Upload Example (with exif orientation compatability)</strong>
+                <div class="actions">
+                    <a class="btn file-btn">
+                        <span>Upload</span>
+                        <input type="file" id="upload" value="Choose a file" accept="image/*" />
+                    </a>
+                    <button class="upload-result">Result</button>
                 </div>
-                <div class="col-1-2">
-                    <div class="upload-msg">
-                        Upload a file to start cropping
-                    </div>
-                    <div class="upload-demo-wrap">
-                        <div id="upload-demo"></div>
-                    </div>
+            </div>
+            <div class="col-1-2">
+                <div class="upload-msg">
+                    Upload a file to start cropping
                 </div>
+                <div class="upload-demo-wrap">
+                    <div id="upload-demo"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -40,6 +40,8 @@
     <link rel="stylesheet" href="~/vendor/croppie/dist/croppie.css">
     <link rel="stylesheet" href="~/vendor/croppie/demo/demo.css">
     <link rel="stylesheet" href="~/vendor/croppie/demo/prism.css">
+
+    <link rel="stylesheet" href="~/vendor/sweetalert/dist/sweetalert.css">
 }
 
 @section PluginJS{
@@ -54,43 +56,9 @@
     <script src="~/vendor/croppie/dist/croppie.js"></script>
     <script src="~/vendor/croppie/demo/demo.js"></script>
     <script src="~/vendor/exif-js/exif.js"></script>
+    <script src="~/vendor/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        function readFile(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('.upload-demo').addClass('ready');
-                    $uploadCrop.croppie('bind', {
-                        url: e.target.result
-                    }).then(function () {
-                        console.log('jQuery bind complete');
-                    });
-
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-            else {
-                swal("Sorry - you're browser doesn't support the FileReader API");
-            }
-        }
-
-        $('#upload').on('change', function () { readFile(this); });
-    </script>
-    <script>
-        $uploadCrop = $('#upload-demo').croppie({
-            enableExif: true,
-            viewport: {
-                width: 200,
-                height: 200,
-                type: 'circle'
-            },
-            boundary: {
-                width: 300,
-                height: 300
-            }
-        });
+        Demo.init();
     </script>
 
 }
