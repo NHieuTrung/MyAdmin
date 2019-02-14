@@ -29,7 +29,7 @@
     <!-- ============================================================== -->
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <form onsubmit="integrateTool.sendMail(); return false;">
+            <form id="formSendMail">
                 <div class="email-head">
                     <div class="email-head-title">Send your mail<span class="icon mdi mdi-edit"></span></div>
                 </div>
@@ -68,6 +68,10 @@
                     </div>
                 </div>
             </form>
+            <!-- ui-dialog -->
+            <div id="dialog" title="Dialog Title">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
         </div>
     </div>
 </div>
@@ -81,17 +85,21 @@
     <link rel="stylesheet" href="~/vendor/select2/css/select2.css">
     <link rel="stylesheet" href="~/vendor/summernote/css/summernote-bs4.css">
     <link rel="stylesheet" href="~/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/vendor/jquery-ui/jquery-ui.css" />
     <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
 }
 
 @section PluginJS{
     <!-- Optional JavaScript -->
     <script src="~/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="~/vendor/jquery-ui/external/jquery/jquery.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="~/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <script src="~/vendor/jquery-ui/jquery-ui.js"></script>
     <script src="~/vendor/select2/js/select2.min.js"></script>
     <script src="~/vendor/summernote/js/summernote-bs4.js"></script>
     <script src="~/libs/js/main-js.js"></script>
+
     <script>
         $(document).ready(function () {
             $('.js-example-basic-multiple').select2({ tags: true });
@@ -111,22 +119,40 @@
     @*SendMail JsonResult Controller via server*@
     <script>
         var integrateTool = {
-        sendMail: function () {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SendMail","IntegrateTool")',
-                    data: { toEmail: $('#iptToEmail').val(), subject: $('#iptSubject').val(), body: $('#summernote').val() },
-                    success: function (result) {
-                        if (result == true) {
-                            alert("Gui mail thanh cong :))");
+            summerNote : function () {
+                $("#formSendMail").on('submit', function () {
+                    $("#dialog").dialog({
+                        modal: true,
+                        title: "jQuery Dialog",
+                        width: 300,
+                        height: 150,
+                        open: function (event, ui) {
+                            setTimeout(function () {
+                                $("#dialog").dialog("close");
+                            }, 2000);
                         }
-                        else {
-                            alert("Gui mail that bai :((");
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SendMail","IntegrateTool")',
+                        data: { toEmail: $('#iptToEmail').val(), subject: $('#iptSubject').val(), body: $('#summernote').val() },
+                        success: function (result) {
+                            if (result == true) {
+                                alert("Gui mail thanh cong :))");
+                            }
+                            else {
+                                alert("Gui mail that bai :((");
+                            }
                         }
-                    }
-            });
-        }
-    };
+                    });
+                    return false;
+                })
+            },
+            init: function () {
+                integrateTool.summerNote();
+            }
+        };
+        integrateTool.init();
     </script>
-    
+
 }

@@ -68,7 +68,10 @@
                         <img class="card-img-top img-fluid" src="~/images/createnewobject.jpg" alt="Card image cap">
                         <div class="card-body">
                             <h3 class="card-title">Branch:@Model[i].Branch.BranchName</h3>
-                            <a href="#" class="btn btn-success btn-block">Add new Type</a>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success btn-block buttonCreateProduct" data-toggle="modal" data-target="#modalCreateProduct" data-branch="@Model[i].BranchId">
+                                Add new type
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -80,7 +83,10 @@
                         <img class="card-img-top img-fluid" src="~/images/createnewobject.jpg" alt="Card image cap">
                         <div class="card-body">
                             <h3 class="card-title">Branch:@Model[i].Branch.BranchName</h3>
-                            <a href="#" class="btn btn-success btn-block">Add new Type</a>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success btn-block buttonCreateProduct" data-toggle="modal" data-target="#modalCreateProduct" data-branch="@Model[i].BranchId">
+                                Add new type
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -90,6 +96,48 @@
     </div>
     <!-- ============================================================== -->
     <!-- end image cards  -->
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCreateProduct" tabindex="-1" role="dialog" aria-labelledby="createProductTittle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/ECommerce/CreateProduct" id="basicform" data-parsley-validate novalidate>
+                    <div class="form-group">
+                        <label for="inputUserName">User Name</label>
+                        <input id="inputUserName" type="text" name="name" data-parsley-trigger="change" required="" placeholder="Enter user name" autocomplete="off" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail">Email address</label>
+                        <input id="inputEmail" type="email" name="email" data-parsley-trigger="change" required="" placeholder="Enter email" autocomplete="off" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <input id="inputPassword" type="password" placeholder="Password" required="" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputRepeatPassword">Repeat Password</label>
+                        <input id="inputRepeatPassword" data-parsley-equalto="#inputPassword" type="password" required="" placeholder="Password" class="form-control">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 pl-0">
+                            <p class="text-right">
+                                <button type="submit" class="btn btn-space btn-primary">Submit</button>
+                                <button class="btn btn-space btn-secondary">Cancel</button>
+                            </p>
+                        </div>
+                    </div>
+                </form>             
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -109,4 +157,11 @@
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="~/vendor/slimscroll/jquery.slimscroll.js"></script>
     <script src="~/libs/js/main-js.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.buttonCreateProduct').off('click').on('click', function () {
+                alert($(this).data("branch"));
+            });
+        });
+    </script>
 }

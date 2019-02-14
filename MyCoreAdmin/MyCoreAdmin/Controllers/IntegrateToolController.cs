@@ -59,5 +59,32 @@ namespace MyCoreAdmin.Controllers
         {
             return View();
         }
+
+        public JsonResult UploadImageFromBase64(string stringBase64)
+        {
+            //data:image/gif;base64,
+            int indexPoint = stringBase64.IndexOf(";base64,") + 8;
+            var base64 = stringBase64.Substring(indexPoint);
+            byte[] bytes = Convert.FromBase64String(base64);
+            var path = Path.Combine(_hostingEnvironment.WebRootPath, "images\\temp.jpg");
+            bool result = true;
+
+
+            using (var imageFile = new FileStream(path, FileMode.Create))
+            {
+                try
+                { 
+                    imageFile.Write(bytes, 0, bytes.Length);
+                    imageFile.Flush();
+                    
+                }
+                catch
+                {
+                    result = false;
+                }
+            }
+            
+            return new JsonResult(result);
+        }
     }
 }

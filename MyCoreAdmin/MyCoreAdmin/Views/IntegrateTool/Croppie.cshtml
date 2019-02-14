@@ -6,23 +6,14 @@
 <div class="container-fluid dashboard-content">
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="col-1-2">
-                <strong>Upload Example (with exif orientation compatability)</strong>
-                <div class="actions">
+            <div style="height:300px;width:300px">
+                <div id="upload-demo"></div>
+            </div>
+            <div style="height:100px;padding-top:100px">
                     <a class="btn file-btn">
-                        <span>Upload</span>
-                        <input type="file" id="upload" value="Choose a file" accept="image/*" />
+                        <input type="file" id="upload" value="Upload image" accept="image/*" />
                     </a>
                     <button class="upload-result">Result</button>
-                </div>
-            </div>
-            <div class="col-1-2">
-                <div class="upload-msg">
-                    Upload a file to start cropping
-                </div>
-                <div class="upload-demo-wrap">
-                    <div id="upload-demo"></div>
-                </div>
             </div>
         </div>
     </div>
@@ -38,8 +29,6 @@
 
     <!-- Croppie CSS -->
     <link rel="stylesheet" href="~/vendor/croppie/dist/croppie.css">
-    <link rel="stylesheet" href="~/vendor/croppie/demo/demo.css">
-    <link rel="stylesheet" href="~/vendor/croppie/demo/prism.css">
 
     <link rel="stylesheet" href="~/vendor/sweetalert/dist/sweetalert.css">
 }
@@ -52,12 +41,104 @@
     <script src="~/libs/js/main-js.js"></script>
 
     <!-- Croppie JS -->
-    <script src="~/vendor/croppie/demo/prism.js"></script>
     <script src="~/vendor/croppie/dist/croppie.js"></script>
-    <script src="~/vendor/croppie/demo/demo.js"></script>
     <script src="~/vendor/exif-js/exif.js"></script>
     <script src="~/vendor/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+        var Demo = (function () {
+
+            function popupResult(result) {
+                var html;
+                if (result.html) {
+                    html = result.html;
+                }
+                if (result.src) {
+                    html = '<img src="' + result.src + '" />';
+                }
+                swal({
+                    title: '',
+                    html: true,
+                    text: html,
+                    allowOutsideClick: true
+                });
+                setTimeout(function () {
+                    $('.sweet-alert').css('margin', function () {
+                        var top = -1 * ($(this).height() / 2),
+                            left = -1 * ($(this).width() / 2);
+
+                        return top + 'px 0 0 ' + left + 'px';
+                    });
+                }, 1);
+            }
+
+            function demoUpload() {
+                var $uploadCrop;
+
+                function readFile(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $('.upload-demo').addClass('ready');
+                            $uploadCrop.croppie('bind', {
+                                url: e.target.result
+                            }).then(function () {
+                                console.log('jQuery bind complete');
+                            });
+
+                        };
+
+                        reader.readAsDataURL(input.files[0]);
+                    } else {
+                        swal("Sorry - you're browser doesn't support the FileReader API");
+                    }
+                }
+
+                $uploadCrop = $('#upload-demo').croppie({
+                    viewport: {
+                        width: 100,
+                        height: 100,
+                        type: 'circle'
+                    },
+                    enableExif: true
+                });
+
+                $('#upload').on('change', function () {
+                    readFile(this);
+                });
+                $('.upload-result').on('click', function (ev) {
+                    $uploadCrop.croppie('result', {
+                        type: 'canvas',
+                        size: 'viewport'
+                    }).then(function (resp) {
+                        popupResult({
+                            src: resp
+                        });
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("UploadImageFromBase64","IntegrateTool")',
+                            data: { stringBase64: resp },
+                            success: function (result) {
+                                if (result == true) {
+                                    alert("Save anh thanh cong :))");
+                                }
+                                else {
+                                    alert("Save anh that bai :((");
+                                }
+                            }
+                        });
+                    });
+                });
+            }
+
+            function init() {
+                demoUpload();
+            }
+
+            return {
+                init: init
+            };
+        })();
         Demo.init();
     </script>
 
