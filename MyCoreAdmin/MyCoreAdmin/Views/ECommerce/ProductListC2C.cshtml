@@ -69,7 +69,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Branch:@Model[i].Branch.BranchName</h3>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success btn-block buttonCreateProduct" data-toggle="modal" data-target="#modalCreateProduct" data-branch="@Model[i].BranchId">
+                            <button type="button" class="btn btn-success btn-block buttonCreateType" data-toggle="modal" data-target="#modalCreateType" data-branch="@Model[i].BranchId" data-branchname="@Model[i].Branch.BranchName">
                                 Add new type
                             </button>
                         </div>
@@ -84,7 +84,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Branch:@Model[i].Branch.BranchName</h3>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success btn-block buttonCreateProduct" data-toggle="modal" data-target="#modalCreateProduct" data-branch="@Model[i].BranchId">
+                            <button type="button" class="btn btn-success btn-block buttonCreateType" data-toggle="modal" data-target="#modalCreateType" data-branch="@Model[i].BranchId">
                                 Add new type
                             </button>
                         </div>
@@ -99,11 +99,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="modalCreateProduct" tabindex="-1" role="dialog" aria-labelledby="createProductTittle" aria-hidden="true">
+<div class="modal fade" id="modalCreateType" tabindex="-1" role="dialog" aria-labelledby="createTypeTittle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <h5 class="modal-title" id="modalBranchTittle"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -111,20 +111,15 @@
             <div class="modal-body">
                 <form method="post" action="/ECommerce/CreateProduct" id="basicform" data-parsley-validate novalidate>
                     <div class="form-group">
-                        <label for="inputUserName">User Name</label>
-                        <input id="inputUserName" type="text" name="name" data-parsley-trigger="change" required="" placeholder="Enter user name" autocomplete="off" class="form-control">
+                        <label for="inputUserName">Type Name</label>
+                        <input id="TypeName" type="text" name="TypeName" data-parsley-trigger="change" required="" placeholder="Enter type name" autocomplete="off" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail">Email address</label>
-                        <input id="inputEmail" type="email" name="email" data-parsley-trigger="change" required="" placeholder="Enter email" autocomplete="off" class="form-control">
+                        <input id="BranchId" type="hidden" name="BranchId" data-parsley-trigger="change" required="" autocomplete="off" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword">Password</label>
-                        <input id="inputPassword" type="password" placeholder="Password" required="" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputRepeatPassword">Repeat Password</label>
-                        <input id="inputRepeatPassword" data-parsley-equalto="#inputPassword" type="password" required="" placeholder="Password" class="form-control">
+                        <label for="inputUserName">Image Display</label>
+                        <input id="TypeName" type="text" name="TypeName" data-parsley-trigger="change" required="" placeholder="Enter type name" autocomplete="off" class="form-control">
                     </div>
                     <div class="row">
                         <div class="col-sm-12 pl-0">
@@ -159,8 +154,9 @@
     <script src="~/libs/js/main-js.js"></script>
     <script>
         $(document).ready(function () {
-            $('.buttonCreateProduct').off('click').on('click', function () {
-                alert($(this).data("branch"));
+            $('.buttonCreateType').off('click').on('click', function () {
+                $('#modalBranchTittle').text($(this).data("branchname")) ;
+                document.getElementById("BranchId").value = $(this).data("branch");
             });
         });
     </script>
