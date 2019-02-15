@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model.Models;
+using Type = Model.Models.Type;
 
 namespace MyCoreAdmin.Controllers
 {
     public class ECommerceController : Controller
     {
+        private IHostingEnvironment _hostingEnvironment;
         private readonly MyCoreAdminDBContext _context;
-        public ECommerceController(MyCoreAdminDBContext context)
+        public ECommerceController(IHostingEnvironment environment, MyCoreAdminDBContext context)
         {
+            _hostingEnvironment = environment;
             _context = context;
         }
         public IActionResult Index()
@@ -37,5 +42,53 @@ namespace MyCoreAdmin.Controllers
 
             return View(await listProduct.ToListAsync());
         }
+
+        public JsonResult UploadImageFromBase64(string stringBase64)
+        {
+            int typeId = _context.Type.Last().TypeId + 1;
+            //data:image/gif;base64,
+            int indexPoint = stringBase64.IndexOf(";base64,") + 8;
+            var base64 = stringBase64.Substring(indexPoint);
+            byte[] bytes = Convert.FromBase64String(base64);
+            var path = Path.Combine(_hostingEnvironment.WebRootPath, "images\\type\\"+typeId.ToString()+".jpg");
+            bool result = true;
+
+
+            using (var imageFile = new FileStream(path, FileMode.Create))
+            {
+                try
+                {
+                    imageFile.Write(bytes, 0, bytes.Length);
+                    imageFile.Flush();
+
+                }
+                catch
+                {
+                    result = false;
+                }
+            }
+
+            return new JsonResult(result);
+        }
+        public IActionResult CreateType()
+        {
+            var mtype = new Type();
+            return PartialView("_CreateTypeModal",mtype);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateType([Bind("TypeId,BranchId,TypeName")] Type mtype)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(mtype);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ProductListC2C));
+            }
+            return PartialView("_CreateTypeModal", mtype);
+        }
+
+
     }
 }

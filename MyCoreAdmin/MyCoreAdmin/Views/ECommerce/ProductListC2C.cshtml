@@ -69,7 +69,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Branch:@Model[i].Branch.BranchName</h3>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success btn-block buttonCreateType" data-toggle="modal" data-target="#modalCreateType" data-branch="@Model[i].BranchId" data-branchname="@Model[i].Branch.BranchName">
+                            <button type="button" class="btn btn-success btn-block buttonCreateType" data-toggle="ajax-modal" data-target="#modalCreateType" data-url="@Url.Action("CreateType")" data-branch="@Model[i].BranchId" data-branchname="@Model[i].Branch.BranchName">
                                 Add new type
                             </button>
                         </div>
@@ -84,7 +84,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Branch:@Model[i].Branch.BranchName</h3>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success btn-block buttonCreateType" data-toggle="modal" data-target="#modalCreateType" data-branch="@Model[i].BranchId">
+                            <button type="button" class="btn btn-success btn-block buttonCreateType" data-toggle="ajax-modal" data-target="#modalCreateType" data-url="@Url.Action("CreateType")" data-branch="@Model[i].BranchId" data-branchname="@Model[i].Branch.BranchName">
                                 Add new type
                             </button>
                         </div>
@@ -98,42 +98,9 @@
     <!-- end image cards  -->
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modalCreateType" tabindex="-1" role="dialog" aria-labelledby="createTypeTittle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalBranchTittle"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="/ECommerce/CreateProduct" id="basicform" data-parsley-validate novalidate>
-                    <div class="form-group">
-                        <label for="inputUserName">Type Name</label>
-                        <input id="TypeName" type="text" name="TypeName" data-parsley-trigger="change" required="" placeholder="Enter type name" autocomplete="off" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input id="BranchId" type="hidden" name="BranchId" data-parsley-trigger="change" required="" autocomplete="off" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputUserName">Image Display</label>
-                        <input id="TypeName" type="text" name="TypeName" data-parsley-trigger="change" required="" placeholder="Enter type name" autocomplete="off" class="form-control">
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 pl-0">
-                            <p class="text-right">
-                                <button type="submit" class="btn btn-space btn-primary">Submit</button>
-                                <button class="btn btn-space btn-secondary">Cancel</button>
-                            </p>
-                        </div>
-                    </div>
-                </form>             
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Modal placeholder -->
+<div id="modal-placeholder"></div>
+
 
 
 @section PluginCSS{
@@ -144,6 +111,10 @@
     <link rel="stylesheet" href="~/vendor/fonts/fontawesome/css/fontawesome-all.css">
     <link rel="stylesheet" href="~/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
     <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
+
+    <!-- Croppie CSS -->
+    <link rel="stylesheet" href="~/vendor/croppie/dist/croppie.css">
+    <link rel="stylesheet" href="~/vendor/sweetalert/dist/sweetalert.css">
 }
 
 @section PluginJS{
@@ -152,11 +123,22 @@
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="~/vendor/slimscroll/jquery.slimscroll.js"></script>
     <script src="~/libs/js/main-js.js"></script>
+
     <script>
-        $(document).ready(function () {
-            $('.buttonCreateType').off('click').on('click', function () {
-                $('#modalBranchTittle').text($(this).data("branchname")) ;
-                document.getElementById("BranchId").value = $(this).data("branch");
+        $(function () {
+            var placeholderElement = $('#modal-placeholder');
+            $('.buttonCreateType').click(function (event) {
+                var url = $(this).data('url');
+                var branchname = $(this).data("branchname");
+                var branch = $(this).data("branch");
+                $.get(url).done(function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
+                    alert(branchname);
+                    alert(branch);
+                    $('#modalBranchTittle').text(branchname);
+                    document.getElementById("BranchId").value = branch;
+                });
             });
         });
     </script>

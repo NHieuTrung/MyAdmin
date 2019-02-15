@@ -1,0 +1,150 @@
+﻿@model Model.Models.Type
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<!-- Modal -->
+<div class="modal fade" id="modalCreateType" tabindex="-1" role="dialog" aria-labelledby="createTypeTittle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalBranchTittle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/ECommerce/CreateType" id="basicform" data-parsley-validate novalidate>
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="inputUserName">Type Name</label>
+                        <input id="TypeName" type="text" name="TypeName" data-parsley-trigger="change" required="" placeholder="Enter type name" autocomplete="off" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input id="BranchId" type="hidden" name="BranchId" data-parsley-trigger="change" required="" autocomplete="off" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUserName">Image Display</label>
+                        <input type="file" id="upload" value="Upload image" accept="image/*" class="form-control" />
+                        <div style="height:300px;width:300px">
+                            <div id="upload-demo"></div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12 pl-0">
+                            <p class="text-right">
+                                <button type="submit" class="btn btn-space btn-primary upload-result">Submit</button>
+                                <button class="btn btn-space btn-secondary">Cancel</button>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Croppie JS -->
+<script src="~/vendor/croppie/dist/croppie.js"></script>
+<script src="~/vendor/exif-js/exif.js"></script>
+<script src="~/vendor/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+        var Demo = (function () {
+
+            function popupResult(result) {
+                var html;
+                if (result.html) {
+                    html = result.html;
+                }
+                if (result.src) {
+                    html = '<img src="' + result.src + '" />';
+                }
+                swal({
+                    title: '',
+                    html: true,
+                    text: html,
+                    allowOutsideClick: true
+                });
+                setTimeout(function () {
+                    $('.sweet-alert').css('margin', function () {
+                        var top = -1 * ($(this).height() / 2),
+                            left = -1 * ($(this).width() / 2);
+
+                        return top + 'px 0 0 ' + left + 'px';
+                    });
+                }, 1);
+            }
+
+            function demoUpload() {
+                var $uploadCrop;
+
+                function readFile(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $('.upload-demo').addClass('ready');
+                            $uploadCrop.croppie('bind', {
+                                url: e.target.result
+                            }).then(function () {
+                                console.log('jQuery bind complete');
+                            });
+
+                        };
+
+                        reader.readAsDataURL(input.files[0]);
+                    } else {
+                        swal("Sorry - you're browser doesn't support the FileReader API");
+                    }
+                }
+
+                $uploadCrop = $('#upload-demo').croppie({
+                    viewport: {
+                        width: 120,
+                        height: 120,
+                        type: 'square'
+                    },
+                    enableExif: true
+                });
+
+                $('#upload').on('change', function () {
+                    readFile(this);
+                });
+                $('.upload-result').on('click', function (ev) {
+                    $uploadCrop.croppie('result', {
+                        type: 'canvas',
+                        size: 'viewport'
+                    }).then(function (resp) {
+                        popupResult({
+                            src: resp
+                        });
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("UploadImageFromBase64","ECommerce")',
+                            data: { stringBase64: resp },
+                            success: function (result) {
+                                if (result == true) {
+                                    alert("Save anh thanh cong :))");
+                                }
+                                else {
+                                    alert("Save anh that bai :((");
+                                }
+                            }
+                        });
+                    });
+                });
+            }
+
+            function init() {
+                demoUpload();
+            }
+
+            return {
+                init: init
+            };
+        })();
+        Demo.init();
+</script>
+
