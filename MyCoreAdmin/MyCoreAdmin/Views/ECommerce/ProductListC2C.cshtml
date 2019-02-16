@@ -127,15 +127,13 @@
     <script>
         $(function () {
             var placeholderElement = $('#modal-placeholder');
-            $('.buttonCreateType').click(function (event) {
+            $('button[data-toggle="ajax-modal"]').click(function (event) {
                 var url = $(this).data('url');
                 var branchname = $(this).data("branchname");
                 var branch = $(this).data("branch");
                 $.get(url).done(function (data) {
                     placeholderElement.html(data);
                     placeholderElement.find('.modal').modal('show');
-                    alert(branchname);
-                    alert(branch);
                     $('#modalBranchTittle').text(branchname);
                     document.getElementById("BranchId").value = branch;
                 });

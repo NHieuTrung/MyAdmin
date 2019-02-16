@@ -3,21 +3,47 @@
     ViewData["Title"] = "Croppie";
 }
 
-<div class="container-fluid dashboard-content">
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div style="height:300px;width:300px">
-                <div id="upload-demo"></div>
-            </div>
-            <div style="height:100px;padding-top:100px">
+<<div class="demo-wrap upload-demo">
+    <div class="container">
+        <div class="grid">
+            <div class="col-1-2">
+                <strong>Upload Example (with exif orientation compatability)</strong>
+                <pre class="language-javascript">
+                    <code class="language-javascript">
+                        $uploadCrop = $('#upload-demo').croppie({
+                            enableExif: true,
+                            viewport: {
+                                width: 200,
+                                height: 200,
+                                type: 'circle'
+                            },
+                            boundary: {
+                                width: 300,
+                                height: 300
+                            }
+                        });
+                    </code>
+                </pre>
+                <div class="actions">
                     <a class="btn file-btn">
-                        <input type="file" id="upload" value="Upload image" accept="image/*" />
+                        <span>Upload</span>
+                        <input type="file" id="upload" value="Choose a file" accept="image/*" />
                     </a>
                     <button class="upload-result">Result</button>
+                </div>
+            </div>
+            <div class="col-1-2">
+                <div class="upload-msg">
+                    Upload a file to start cropping
+                </div>
+                <div class="upload-demo-wrap">
+                    <div id="upload-demo"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- ============================================================== -->
 
 @section PluginCSS{
@@ -29,6 +55,7 @@
 
     <!-- Croppie CSS -->
     <link rel="stylesheet" href="~/vendor/croppie/dist/croppie.css">
+    <link href="~/vendor/croppie/dist/demo.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="~/vendor/sweetalert/dist/sweetalert.css">
 }

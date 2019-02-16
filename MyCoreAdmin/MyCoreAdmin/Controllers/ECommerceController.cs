@@ -43,32 +43,21 @@ namespace MyCoreAdmin.Controllers
             return View(await listProduct.ToListAsync());
         }
 
-        public JsonResult UploadImageFromBase64(string stringBase64)
+        public void UploadImageFromBase64(string stringBase64)
         {
-            int typeId = _context.Type.Last().TypeId + 1;
+            int typeId = _context.Type.Last().TypeId;
             //data:image/gif;base64,
             int indexPoint = stringBase64.IndexOf(";base64,") + 8;
             var base64 = stringBase64.Substring(indexPoint);
             byte[] bytes = Convert.FromBase64String(base64);
             var path = Path.Combine(_hostingEnvironment.WebRootPath, "images\\type\\"+typeId.ToString()+".jpg");
-            bool result = true;
 
 
             using (var imageFile = new FileStream(path, FileMode.Create))
             {
-                try
-                {
-                    imageFile.Write(bytes, 0, bytes.Length);
-                    imageFile.Flush();
-
-                }
-                catch
-                {
-                    result = false;
-                }
+                imageFile.Write(bytes, 0, bytes.Length);
+                imageFile.Flush();
             }
-
-            return new JsonResult(result);
         }
         public IActionResult CreateType()
         {
@@ -78,12 +67,13 @@ namespace MyCoreAdmin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateType([Bind("TypeId,BranchId,TypeName")] Type mtype)
+        public async Task<IActionResult> CreateType([Bind("TypeId,BranchId,TypeName")] Type mtype,string stringBase64)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(mtype);
+                 _context.Add(mtype);
                 await _context.SaveChangesAsync();
+                UploadImageFromBase64(stringBase64);
                 return RedirectToAction(nameof(ProductListC2C));
             }
             return PartialView("_CreateTypeModal", mtype);
