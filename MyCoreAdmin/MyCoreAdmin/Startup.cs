@@ -37,7 +37,7 @@ namespace MyCoreAdmin
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //Laptop: DESKTOP-IN1HM4Q // PC : DESKTOP-VNEERI2
-            var connection = @"Server=DESKTOP-VNEERI2;Database=MyCoreAdminDB;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = @"Server=DESKTOP-IN1HM4Q;Database=MyCoreAdminDB;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<MyCoreAdminDBContext>(options => options.UseSqlServer(connection));
         }
          

@@ -79,6 +79,25 @@ namespace MyCoreAdmin.Controllers
             return PartialView("_CreateTypeModal", mtype);
         }
 
+        public IActionResult CreateBranch()
+        {
+            var mbranch = new Branch();
+            return PartialView("_CreateBranchModal", mbranch);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateBranch([Bind("BranchId,BranchName")] Branch mbranch)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(mbranch);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ProductListC2C));
+            }
+            return PartialView("_CreateBranchModal", mbranch);
+        }
+
+
 
     }
 }

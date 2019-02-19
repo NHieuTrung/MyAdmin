@@ -93,13 +93,19 @@
             }
 
         }
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="section-block" id="image-card">
+                <button class="btn btn-default btn-block buttonCreateBranch" data-toggle="ajax-modal" data-target="#modalCreateBranch" data-url="@Url.Action("CreateBranch")">Add new branch</button>
+            </div>
+        </div>
     </div>
     <!-- ============================================================== -->
     <!-- end image cards  -->
 </div>
 
 <!-- Modal placeholder -->
-<div id="modal-placeholder"></div>
+<div id="modal-createType"></div>
+<div id="modal-createBranch"></div>
 
 
 
@@ -126,8 +132,8 @@
 
     <script>
         $(function () {
-            var placeholderElement = $('#modal-placeholder');
-            $('button[data-toggle="ajax-modal"]').click(function (event) {
+            var placeholderElement = $('#modal-createType');
+            $(".buttonCreateType").click(function (event) {
                 var url = $(this).data('url');
                 var branchname = $(this).data("branchname");
                 var branch = $(this).data("branch");
@@ -136,6 +142,18 @@
                     placeholderElement.find('.modal').modal('show');
                     $('#modalBranchTittle').text(branchname);
                     document.getElementById("BranchId").value = branch;
+                });
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            var placeholderElement = $('#modal-createBranch');
+            $(".buttonCreateBranch").click(function (event) {
+                var url = $(this).data('url');
+                $.get(url).done(function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
                 });
             });
         });
