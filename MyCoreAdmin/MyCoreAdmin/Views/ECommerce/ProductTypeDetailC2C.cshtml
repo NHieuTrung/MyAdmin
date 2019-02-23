@@ -52,10 +52,25 @@
 
 
         }
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <img class="card-img-top img-fluid" src="~/images/createnewobject.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h3 class="card-title">Modal add product</h3>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success btn-block buttonCreateProduct" data-toggle="ajax-modal" data-target="#modalCreateProduct" data-url="@Url.Action("CreateProduct")">
+                        Add new product
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- ============================================================== -->
     <!-- end image cards  -->
 </div>
+
+<!-- Modal placeholder -->
+<div id="modal-createProduct"></div>
 
 
 @section PluginCSS{
@@ -74,5 +89,17 @@
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="~/vendor/slimscroll/jquery.slimscroll.js"></script>
     <script src="~/libs/js/main-js.js"></script>
+    <script>
+        $(function () {
+            var placeholderElement = $('#modal-createProduct');
+            $(".buttonCreateProduct").click(function (event) {
+                var url = $(this).data('url');
+                $.get(url).done(function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
+                });
+            });
+        });
+    </script>
 }
 

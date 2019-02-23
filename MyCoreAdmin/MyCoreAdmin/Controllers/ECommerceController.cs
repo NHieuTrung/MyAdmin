@@ -28,19 +28,7 @@ namespace MyCoreAdmin.Controllers
         //C2CProduct
         public async Task<IActionResult> ProductListC2C()
         {
-            return View(await _context.Type.Include(m => m.Branch).ToListAsync());
-        }
-
-        public async Task<IActionResult> ProductTypeDetailC2C(int? typeId)
-        {
-            ViewData["ProductTypeName"] = _context.Type.Find(typeId).TypeName;
-            IQueryable<Product> listProduct = _context.Product;
-            if (typeId != null)
-            {
-                listProduct = listProduct.Where(m => m.TypeId == typeId);
-            }
-
-            return View(await listProduct.ToListAsync());
+            return View(await _context.Branch.Include(m=>m.Type).ToListAsync());
         }
 
         public void UploadImageFromBase64(string stringBase64)
@@ -97,7 +85,37 @@ namespace MyCoreAdmin.Controllers
             return PartialView("_CreateBranchModal", mbranch);
         }
 
+        public async Task<IActionResult> ProductTypeDetailC2C(int? typeId)
+        {
+            ViewData["ProductTypeName"] = _context.Type.Find(typeId).TypeName;
+            IQueryable<Product> listProduct = _context.Product;
+            if (typeId != null)
+            {
+                listProduct = listProduct.Where(m => m.TypeId == typeId);
+            }
 
+            return View(await listProduct.ToListAsync());
+        }
+
+        public IActionResult CreateProduct()
+        {
+            var mproduct = new Type();
+            return PartialView("_CreateProductModal", mproduct);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateProduct([Bind("ProductId,ProductName,AddedDate,EstablishedDate,TypeId,Price,Quantity")] Product mproduct, string stringBase64)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(mproduct);
+                await _context.SaveChangesAsync();
+                UploadImageFromBase64(stringBase64);
+                return RedirectToAction(nameof(ProductListC2C));
+            }
+            return PartialView("_CreateTypeModal", mproduct);
+        }
 
     }
 }
