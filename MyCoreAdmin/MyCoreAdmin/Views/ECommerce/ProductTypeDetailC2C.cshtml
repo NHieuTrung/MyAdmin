@@ -58,7 +58,7 @@
                 <div class="card-body">
                     <h3 class="card-title">Modal add product</h3>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-success btn-block buttonCreateProduct" data-toggle="ajax-modal" data-target="#modalCreateProduct" data-url="@Url.Action("CreateProduct")">
+                    <button type="button" class="btn btn-success btn-block buttonCreateProduct" data-toggle="ajax-modal" data-url="@Url.Action("CreateProduct")" data-typeid=@ViewData["ProductTypeId"]>
                         Add new product
                     </button>
                 </div>
@@ -94,9 +94,11 @@
             var placeholderElement = $('#modal-createProduct');
             $(".buttonCreateProduct").click(function (event) {
                 var url = $(this).data('url');
+                var typeid = $(this).data("typeid");
                 $.get(url).done(function (data) {
                     placeholderElement.html(data);
                     placeholderElement.find('.modal').modal('show');
+                    document.getElementById("TypeId").value = typeid;
                 });
             });
         });

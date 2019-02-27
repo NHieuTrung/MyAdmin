@@ -1,29 +1,37 @@
-﻿@model Model.Models.Type
+﻿@model Model.Models.Product
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
 <!-- Modal -->
-<div class="modal fade" id="modalCreateType" tabindex="-1" role="dialog" aria-labelledby="createTypeTittle" aria-hidden="true">
+<div class="modal fade" id="modalCreateProduct" tabindex="-1" role="dialog" aria-labelledby="createProductTittle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalBranchTittle"></h5>
+                <h5 class="modal-title">Create New Product</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/ECommerce/CreateType" method="post" id="validationform" data-parsley-validate="" novalidate="">
+                <form action="/ECommerce/CreateProduct" method="post" id="validationform" data-parsley-validate="" novalidate="">
                     @Html.AntiForgeryToken()
-
-                    @*<input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />*@
+                    <input type="hidden" id="TypeId" name="TypeId" required class="form-control">
                     <div class="form-group">
-                        <label for="inputUserName">Type Name</label>
-                        <input type="text" id="TypeName" name="TypeName" required placeholder="Enter type name" class="form-control">
+                        <label for="inputBranchName">Product Name</label>
+                        <input type="text" id="ProductName" name="ProductName" required placeholder="Enter branch name" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="hidden" id="BranchId" name="BranchId" required class="form-control">
+                        <label for="inputEstablishedDate">Established Date</label>
+                        <input type="date" id="EstablishedDate" name="EstablishedDate" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPrice">Price</label>
+                        <input type="number" id="Price" name="Price" min="0" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputQuantity">Quantity</label>
+                        <input type="number" id="Quantity" name="Quantity" required min="0" class="form-control">
                     </div>
                     <div class="form-group">
                         @*Get stringBase64 when crop image success*@
@@ -31,7 +39,7 @@
                         @*------------------------------------------*@
                         <label for="inputUserName">Image Display</label>
                         <input type="file" id="upload" value="Upload image" accept="image/*" required class="form-control" />
-                        <div style="height:200px;width:200px">
+                        <div style="height:300px;width:300px">
                             <div id="upload-demo"></div>
                         </div>
                     </div>
@@ -40,7 +48,7 @@
                     <div class="row">
                         <div class="col-sm-12 pl-0">
                             <p class="text-right">
-                                <button type="button" class="btn btn-space btn-primary upload-result">Submit</button>
+                                <button type="submit" class="btn btn-space btn-primary upload-result">Submit</button>
                                 <button type="reset" class="btn btn-space btn-secondary">Cancel</button>
                             </p>
                         </div>
@@ -50,7 +58,6 @@
         </div>
     </div>
 </div>
-
 <script src="~/vendor/exif-js/exif.js"></script>
 <script src="~/vendor/sweetalert/dist/sweetalert.min.js"></script>
 

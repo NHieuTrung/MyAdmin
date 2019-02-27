@@ -87,6 +87,7 @@ namespace MyCoreAdmin.Controllers
 
         public async Task<IActionResult> ProductTypeDetailC2C(int? typeId)
         {
+            ViewData["ProductTypeId"] = typeId;
             ViewData["ProductTypeName"] = _context.Type.Find(typeId).TypeName;
             IQueryable<Product> listProduct = _context.Product;
             if (typeId != null)
@@ -99,7 +100,7 @@ namespace MyCoreAdmin.Controllers
 
         public IActionResult CreateProduct()
         {
-            var mproduct = new Type();
+            var mproduct = new Product();
             return PartialView("_CreateProductModal", mproduct);
         }
 
@@ -109,12 +110,13 @@ namespace MyCoreAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
+                mproduct.AddedDate = System.DateTime.Now;
                 _context.Add(mproduct);
                 await _context.SaveChangesAsync();
                 UploadImageFromBase64(stringBase64);
                 return RedirectToAction(nameof(ProductListC2C));
             }
-            return PartialView("_CreateTypeModal", mproduct);
+            return PartialView("_CreateProductModal", mproduct);
         }
 
     }
