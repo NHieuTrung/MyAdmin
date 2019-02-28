@@ -1,10 +1,9 @@
-﻿@model List<Model.Models.Product>
+﻿@model List<Model.Models.Branch>
 @using Common
 @inject Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnviroment
 @{
-    ViewData["Title"] = "ProductTypeListC2C";
+    ViewData["Title"] = "ProductListC2C";
 }
-
 <div class="container-fluid dashboard-content">
     <!-- ============================================================== -->
     <!-- pageheader -->
@@ -32,36 +31,42 @@
     <!-- image cards  -->
     <!-- ============================================================== -->
     <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="section-block" id="image-card">
-                <h2 class="section-title">@ViewData["ProductTypeName"]</h2>
-            </div>
-        </div>
-        @foreach (var item in Model)
+        @for (int i = 0; i < Model.Count(); i++)
         {
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="section-block" id="image-card">
+                    <h2 class="section-title">@Model[i].BranchName</h2>
+                </div>
+            </div>
+            @foreach (var itemType in @Model[i].Type)
+            {
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <img class="card-img-top img-fluid" src=@Common.ImageBox.ImageObjectPath("type",@itemType.TypeId,null,_hostingEnviroment) alt="Card image cap">
+                        <div class="card-body">
+                            <h3 class="card-title">@itemType.TypeName</h3>
+                            @*<p class="card-text">bla vla bla cla</p>*@
+                            <a class="btn btn-primary" href="@Url.Action("ProductListC2C","ECommerce",new { typeId=@itemType.TypeId})">View all product in Type</a>
+                        </div>
+                    </div>
+                </div>
+            }
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="card">
-                    <img class="card-img-top img-fluid p-2" src=@Common.ImageBox.ImageObjectPath("product",item.ProductId,null,_hostingEnviroment) alt="Card image cap">
+                    <img class="card-img-top img-fluid" src="~/images/createnewobject.jpg" alt="Card image cap">
                     <div class="card-body">
-                        <h3 class="card-title">@item.ProductName</h3>
-                        @*<p class="card-text">Faucibus orci luctus et ultrices lorem posuere cubilia Cuquis ipsum in augue posuere congue.</p>*@
-                        <a href="#" class="btn btn-primary">View detail</a>
+                        <h3 class="card-title">Branch:@Model[i].BranchName</h3>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success btn-block buttonCreateType" data-toggle="ajax-modal" data-target="#modalCreateType" data-url="@Url.Action("CreateType")" data-branch="@Model[i].BranchId" data-branchname="@Model[i].BranchName">
+                            Add new type
+                        </button>
                     </div>
                 </div>
             </div>
-
-
         }
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-            <div class="card">
-                <img class="card-img-top img-fluid" src="~/images/createnewobject.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title">Modal add product</h3>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-success btn-block buttonCreateProduct" data-toggle="ajax-modal" data-url="@Url.Action("CreateProduct")" data-typeid=@ViewData["ProductTypeId"]>
-                        Add new product
-                    </button>
-                </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="section-block" id="image-card">
+                <button class="btn btn-default btn-block buttonCreateBranch" data-toggle="ajax-modal" data-target="#modalCreateBranch" data-url="@Url.Action("CreateBranch")">Add new branch</button>
             </div>
         </div>
     </div>
@@ -70,7 +75,9 @@
 </div>
 
 <!-- Modal placeholder -->
-<div id="modal-createProduct"></div>
+<div id="modal-createType"></div>
+<div id="modal-createBranch"></div>
+
 
 
 @section PluginCSS{
@@ -81,6 +88,10 @@
     <link rel="stylesheet" href="~/vendor/fonts/fontawesome/css/fontawesome-all.css">
     <link rel="stylesheet" href="~/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
     <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
+
+    <!-- Croppie CSS -->
+    <link rel="stylesheet" href="~/vendor/croppie/dist/croppie.css">
+    <link rel="stylesheet" href="~/vendor/sweetalert/dist/sweetalert.css">
 }
 
 @section PluginJS{
@@ -89,19 +100,33 @@
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="~/vendor/slimscroll/jquery.slimscroll.js"></script>
     <script src="~/libs/js/main-js.js"></script>
+
     <script>
         $(function () {
-            var placeholderElement = $('#modal-createProduct');
-            $(".buttonCreateProduct").click(function (event) {
+            var placeholderElement = $('#modal-createType');
+            $(".buttonCreateType").click(function (event) {
                 var url = $(this).data('url');
-                var typeid = $(this).data("typeid");
+                var branchname = $(this).data("branchname");
+                var branch = $(this).data("branch");
                 $.get(url).done(function (data) {
                     placeholderElement.html(data);
                     placeholderElement.find('.modal').modal('show');
-                    document.getElementById("TypeId").value = typeid;
+                    $('#modalBranchTittle').text(branchname);
+                    document.getElementById("BranchId").value = branch;
+                });
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            var placeholderElement = $('#modal-createBranch');
+            $(".buttonCreateBranch").click(function (event) {
+                var url = $(this).data('url');
+                $.get(url).done(function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
                 });
             });
         });
     </script>
 }
-

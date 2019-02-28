@@ -26,12 +26,12 @@ namespace MyCoreAdmin.Controllers
         }
 
         //C2CProduct
-        public async Task<IActionResult> ProductListC2C()
+        public async Task<IActionResult> BranchAndTypeListC2C()
         {
             return View(await _context.Branch.Include(m=>m.Type).ToListAsync());
         }
 
-        public void UploadImageFromBase64(string stringBase64)
+        public void UploadImageTypeFromBase64(string stringBase64)
         {
             int typeId = _context.Type.Last().TypeId;
             //data:image/gif;base64,
@@ -39,6 +39,22 @@ namespace MyCoreAdmin.Controllers
             var base64 = stringBase64.Substring(indexPoint);
             byte[] bytes = Convert.FromBase64String(base64);
             var path = Path.Combine(_hostingEnvironment.WebRootPath, "images\\type\\"+typeId.ToString()+".jpg");
+
+
+            using (var imageFile = new FileStream(path, FileMode.Create))
+            {
+                imageFile.Write(bytes, 0, bytes.Length);
+                imageFile.Flush();
+            }
+        }
+        public void UploadImageProductFromBase64(string stringBase64)
+        {
+            int productId = _context.Product.Last().ProductId;
+            //data:image/gif;base64,
+            int indexPoint = stringBase64.IndexOf(";base64,") + 8;
+            var base64 = stringBase64.Substring(indexPoint);
+            byte[] bytes = Convert.FromBase64String(base64);
+            var path = Path.Combine(_hostingEnvironment.WebRootPath, "images\\product\\" + productId.ToString() + ".jpg");
 
 
             using (var imageFile = new FileStream(path, FileMode.Create))
@@ -61,8 +77,8 @@ namespace MyCoreAdmin.Controllers
             {
                  _context.Add(mtype);
                 await _context.SaveChangesAsync();
-                UploadImageFromBase64(stringBase64);
-                return RedirectToAction(nameof(ProductListC2C));
+                UploadImageTypeFromBase64(stringBase64);
+                return RedirectToAction(nameof(BranchAndTypeListC2C));
             }
             return PartialView("_CreateTypeModal", mtype);
         }
@@ -80,12 +96,12 @@ namespace MyCoreAdmin.Controllers
             {
                 _context.Add(mbranch);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(ProductListC2C));
+                return RedirectToAction(nameof(BranchAndTypeListC2C));
             }
             return PartialView("_CreateBranchModal", mbranch);
         }
 
-        public async Task<IActionResult> ProductTypeDetailC2C(int? typeId)
+        public async Task<IActionResult> ProductListC2C(int? typeId)
         {
             ViewData["ProductTypeId"] = typeId;
             ViewData["ProductTypeName"] = _context.Type.Find(typeId).TypeName;
@@ -113,8 +129,8 @@ namespace MyCoreAdmin.Controllers
                 mproduct.AddedDate = System.DateTime.Now;
                 _context.Add(mproduct);
                 await _context.SaveChangesAsync();
-                UploadImageFromBase64(stringBase64);
-                return RedirectToAction(nameof(ProductListC2C));
+                UploadImageProductFromBase64(stringBase64);
+                return RedirectToAction(nameof(ProductListC2C),new { typeId=mproduct.TypeId});
             }
             return PartialView("_CreateProductModal", mproduct);
         }
