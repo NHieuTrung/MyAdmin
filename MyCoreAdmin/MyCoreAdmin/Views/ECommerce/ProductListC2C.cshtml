@@ -45,7 +45,7 @@
                     <div class="card-body">
                         <h3 class="card-title">@item.ProductName</h3>
                         @*<p class="card-text">Faucibus orci luctus et ultrices lorem posuere cubilia Cuquis ipsum in augue posuere congue.</p>*@
-                        <a href="#" class="btn btn-primary">View detail</a>
+                        <a href=@Url.Action("ProductDetailC2C","ECommerce",new {productId= item.ProductId}) class="btn btn-primary">View detail</a>
                     </div>
                 </div>
             </div>

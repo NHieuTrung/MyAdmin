@@ -25,7 +25,7 @@ namespace MyCoreAdmin.Controllers
             return View();
         }
 
-        //C2CProduct
+        //C2CProductManager
         public async Task<IActionResult> BranchAndTypeListC2C()
         {
             return View(await _context.Branch.Include(m=>m.Type).ToListAsync());
@@ -133,6 +133,23 @@ namespace MyCoreAdmin.Controllers
                 return RedirectToAction(nameof(ProductListC2C),new { typeId=mproduct.TypeId});
             }
             return PartialView("_CreateProductModal", mproduct);
+        }
+
+        public async Task<IActionResult> ProductDetailC2C(int? productId)
+        {
+            if (productId == null)
+            {
+                return NotFound();
+            }
+
+            var mproduct = await _context.Product
+                .FirstOrDefaultAsync(m => m.ProductId == productId);
+            if (mproduct == null)
+            {
+                return NotFound();
+            }
+
+            return View(mproduct);
         }
 
     }
