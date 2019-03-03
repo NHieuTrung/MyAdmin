@@ -1,0 +1,39 @@
+
+
+
+#zoom1, #zoom2, #zoom3, #zoom4, #zoom5{
+    border: 1px solid #E8E8E6;
+}
+
+.zoom-left{
+    float:left;
+    width:412px;
+
+}
+.zoom-right{
+    float:left;
+    width:320px;
+    padding:20px;
+
+}
+
+
+
+
+.zoom-wrapper{
+    border-radius: 10px;
+    border: 1px solid #E0E0E0;
+    padding: 10px;
+    background-color: #F7F7F7;
+}
+
+.zoomContainer{
+}
+
+.zoom-gallery-hover{
+    border: 2px solid orange;
+}
+
+.zoom-img {
+    border:1px solid #e8e8e6;
+}

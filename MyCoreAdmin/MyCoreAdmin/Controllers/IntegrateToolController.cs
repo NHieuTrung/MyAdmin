@@ -86,5 +86,10 @@ namespace MyCoreAdmin.Controllers
             
             return new JsonResult(result);
         }
+
+        public IActionResult ZoomProduct()
+        {
+            return View();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model Model.Models.Product
+@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnviroment
 @{
     ViewData["Title"] = "ProductDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,7 +33,8 @@
             <div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pr-xl-0 pr-lg-0 pr-md-0  m-b-30">
-                        <img id="zoom_01" src='~/images/product/1.jpg' data-zoom-image="~/images/product/1.jpg" />
+                        <img id="zoom_mw" src=@Common.ImageBox.ImageObjectPath("product",Model.ProductId,null,_hostingEnviroment)
+                             data-zoom-image=@String.Concat(Url.Content("~"),"/images/product/"+Model.ProductId+".jpg") />
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pl-xl-0 pl-lg-0 pl-md-0 border-left m-b-30">
                         <div class="product-details">
@@ -271,6 +273,9 @@
     <link href="~/vendor/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="~/libs/css/style.css">
     <link rel="stylesheet" href="~/vendor/fonts/fontawesome/css/fontawesome-all.css">
+
+    @*elevatezoom-plus*@
+    <link href="~/vendor/elevatezoom-plus/css/style.css" rel="stylesheet" />
 }
 
 @section PluginJS{
@@ -319,9 +324,11 @@
     </script>
 
     @*elevatezoom-plus*@
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="~/vendor/elevatezoom-plus/js/jquery.ez-plus.js"></script>
     <script>
-        $('#zoom_01').ezPlus();
+        $('#zoom_mw').ezPlus({
+            scrollZoom: true
+        });
     </script>
 }
