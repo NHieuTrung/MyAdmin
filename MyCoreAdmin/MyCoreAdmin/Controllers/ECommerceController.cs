@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model.Models;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using Type = Model.Models.Type;
 
 namespace MyCoreAdmin.Controllers
@@ -31,6 +33,8 @@ namespace MyCoreAdmin.Controllers
             return View(await _context.Branch.Include(m=>m.Type).ToListAsync());
         }
 
+
+        //Upload image
         public void UploadImageTypeFromBase64(string stringBase64)
         {
             int typeId = _context.Type.Last().TypeId;
@@ -54,20 +58,32 @@ namespace MyCoreAdmin.Controllers
             int indexPoint = stringBase64.IndexOf(";base64,") + 8;
             var base64 = stringBase64.Substring(indexPoint);
             byte[] bytes = Convert.FromBase64String(base64);
+
+            //Result path file to save
             var path = Path.Combine(_hostingEnvironment.WebRootPath, "images\\product\\" + productId.ToString() + ".jpg");
 
+            ////Save image to path
+            //using (var imageFile = new FileStream(path, FileMode.Create))
+            //{
+            //    imageFile.Write(bytes, 0, bytes.Length);
+            //    imageFile.Flush();
+            //}
 
-            using (var imageFile = new FileStream(path, FileMode.Create))
+            var pathLargeSize = Path.Combine(_hostingEnvironment.WebRootPath, "images\\product\\largesize\\" + productId.ToString() + ".jpg");
+            using (Image<Rgba32> image = Image.Load(bytes)) //open the file and detect the file type and decode it
             {
-                imageFile.Write(bytes, 0, bytes.Length);
-                imageFile.Flush();
-            }
+                image.Save(pathLargeSize);
+                // image is now in a file format agnositic structure in memory as a series of Rgba32 pixels
+                image.Mutate(ctx => ctx.Resize(image.Width / 4, image.Height / 4)); // resize the image in place and return it for chaining
+                image.Save(path); // based on the file extension pick an encoder then encode and write the data to disk
+            } // dispose - releasing memory into a memory pool ready for the next image you wish to process
         }
         public IActionResult CreateType()
         {
             var mtype = new Type();
             return PartialView("_CreateTypeModal",mtype);
         }
+        //-------------------------------------------------------------
 
         [HttpPost]
         [ValidateAntiForgeryToken]
