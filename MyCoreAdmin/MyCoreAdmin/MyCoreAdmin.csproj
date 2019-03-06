@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\vendor\sweetalert2\**" />
+    <Content Remove="wwwroot\vendor\sweetalert2\**" />
+    <EmbeddedResource Remove="wwwroot\vendor\sweetalert2\**" />
+    <None Remove="wwwroot\vendor\sweetalert2\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\vendor\flexslider2\bower_components\jquery\.bower.json" />
     <Content Include="wwwroot\vendor\flexslider2\bower_components\jquery\bower.json" />
     <Content Include="wwwroot\vendor\flexslider2\bower_components\jquery\MIT-LICENSE.txt" />
@@ -104,6 +111,7 @@
     <None Include="wwwroot\vendor\flexslider2\bower_components\jquery\src\var\support.js" />
     <None Include="wwwroot\vendor\flexslider2\bower_components\jquery\src\var\toString.js" />
     <None Include="wwwroot\vendor\flexslider2\bower_components\jquery\src\wrap.js" />
+    <None Include="wwwroot\vendor\flexslider2\demo\css\fonts\flexslider-icon.svg" />
     <None Include="wwwroot\vendor\flexslider2\node_modules\jquery\.bowerrc" />
     <None Include="wwwroot\vendor\flexslider2\node_modules\jquery\.jscsrc" />
     <None Include="wwwroot\vendor\flexslider2\node_modules\jquery\.npmignore" />
@@ -222,7 +230,6 @@
     <Folder Include="wwwroot\images\attribute\" />
     <Folder Include="wwwroot\images\branch\" />
     <Folder Include="wwwroot\images\product\largesize\" />
-    <Folder Include="wwwroot\vendor\sweetalert2\" />
   </ItemGroup>
 
 </Project>

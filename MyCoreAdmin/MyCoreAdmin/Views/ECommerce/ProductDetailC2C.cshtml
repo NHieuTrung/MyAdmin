@@ -39,11 +39,9 @@
                                     <img src="~/vendor/flexslider2/demo/images/kitchen_adventurer_caramel.jpg" />
                                 </li>
                                 <li>
-
                                     <img src="~/vendor/flexslider2/demo/images/kitchen_adventurer_cheesecake_brownie.jpg" />
                                 </li>
                                 <li>
-
                                     <img src="~/vendor/flexslider2/demo/images/kitchen_adventurer_donut.jpg" />
                                 </li>
                                 <li>
@@ -361,7 +359,9 @@
     </script>
 
     @*elevatezoom-plus*@
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
     <script type="text/javascript" src="~/vendor/elevatezoom-plus/js/jquery.ez-plus.js"></script>
     <script>
         $('#zoom_mw1').ezPlus({
@@ -376,10 +376,7 @@
     </script>
 
     @*flex-slider 2*@
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-
     <script src="~/vendor/flexslider2/jquery.flexslider.js"></script>
-    <script src="~/vendor/flexslider2/demo/js/modernizr.js"></script>
     <script>
         $(window).load(function () {
             // The slider being synced must be initialized first
@@ -402,7 +399,4 @@
             });
         });
     </script>
-    <!-- Optional FlexSlider Additions -->
-    <script src="~/vendor/flexslider2/demo/js/jquery.easing.js"></script>
-    <script src="~/vendor/flexslider2/demo/js/jquery.mousewheel.js"></script>
 }
